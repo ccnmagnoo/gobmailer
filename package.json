@@ -6,17 +6,25 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mail": "email dev"
   },
   "dependencies": {
+    "@react-email/button": "0.0.11",
+    "@react-email/html": "0.0.6",
+    "@react-email/render": "^0.0.9",
+    "next": "14.0.3",
+    "nodemailer": "^6.9.7",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.3"
+    "react-email": "1.9.5",
+    "sass": "^1.69.5"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.14",
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "typescript": "^5"
   }
 }
