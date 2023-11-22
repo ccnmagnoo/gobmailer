@@ -1,9 +1,8 @@
-import { Html } from '@react-email/html';
 import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
 import { JSXElementConstructor, ReactElement } from 'react';
 
-export type GobmailerOption<MAIL> = {
+export type MailerOption<MAIL> = {
   from: string;
   to: string;
   subject: string;
@@ -14,18 +13,22 @@ export type MailerElement<T = any> = ReactElement<T, string | JSXElementConstruc
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST as string,
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false, //https://nodemailer.com/smtp/ upgrade later with STARTTLS
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
 });
 
-export async function gobmailer<T extends MailerElement>(option: GobmailerOption<T>) {
+// cspell:disable
+export async function gobmailer<T extends MailerElement>(option: MailerOption<T>) {
   const emailHtml = render(option.html);
 
-  const compose: GobmailerOption<string> = {
+  const compose: MailerOption<string> = {
     from: option.from,
     to: option.to,
     subject: option.subject,
