@@ -9,6 +9,11 @@ export type MailerOption<MAIL> = {
   html: MAIL;
 };
 
+type MailerStatus = {
+  status: 'OK' | 'ERROR';
+  details?: unknown;
+};
+
 export type MailerElement<T = any> = ReactElement<T, string | JSXElementConstructor<T>>;
 
 const transporter = nodemailer.createTransport({
@@ -25,7 +30,9 @@ const transporter = nodemailer.createTransport({
 });
 
 // cspell:disable
-export async function gobmailer<T extends MailerElement>(option: MailerOption<T>) {
+export async function gobmailer<T extends MailerElement>(
+  option: MailerOption<T>
+): Promise<MailerStatus> {
   const emailHtml = render(option.html);
 
   const compose: MailerOption<string> = {
@@ -37,7 +44,12 @@ export async function gobmailer<T extends MailerElement>(option: MailerOption<T>
   try {
     await transporter.sendMail(compose);
     console.log('mail sent');
+    return { status: 'OK' };
   } catch (error) {
     console.error('mail error', error);
+    return {
+      status: 'ERROR',
+      details: error,
+    };
   }
 }
