@@ -1,6 +1,4 @@
-import { useState } from 'react';
 import { TestMail } from './libs/test.template';
-import { MailerStatus } from './libs/transporter';
 import styles from './page.module.scss';
 
 export default function Home() {
