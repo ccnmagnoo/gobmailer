@@ -9,7 +9,7 @@ export type MailerOption<MAIL> = {
   html: MAIL;
 };
 
-type MailerStatus = {
+export type MailerStatus = {
   status: 'OK' | 'ERROR';
   details?: unknown;
 };
@@ -44,7 +44,7 @@ export async function gobmailer<T extends MailerElement>(
   try {
     await transporter.sendMail(compose);
     console.log('mail sent');
-    return { status: 'OK' };
+    return { status: 'OK', details: `sent mail to ${compose.to}` };
   } catch (error) {
     console.error('mail error', error);
     return {
