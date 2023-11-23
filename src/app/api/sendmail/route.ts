@@ -1,12 +1,20 @@
-import { MailerStatus } from '@/app/libs/transporter';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { gobmailer } from '@/app/libs/gobmailer';
+import { MailerOption, MailerStatus } from '@/app/libs/transporter';
+import { NextRequest, NextResponse } from 'next/server';
 
-const route = async (req: NextApiRequest, res: NextApiResponse<MailerStatus>) => {
-  if (req.method === 'POST') {
-    res.status(200).json({ status: 'OK', details: 'mail sent to ' });
-  } else {
-    res.status(501).json({ status: 'ERROR', details: 'bad request method' });
+const handler = async (req: NextRequest, res: NextResponse<MailerStatus>) => {
+  const mailData: MailerOption<string> = await req.json();
+  const mailResult = await gobmailer(mailData);
+
+  if (mailResult.status === 'OK') {
+    return Response.json({ mailData }, { status: 200 });
+  }
+  if (mailResult.status === 'ERROR') {
+    return Response.json(
+      { mailResult },
+      { status: 501, statusText: mailResult.details as string }
+    );
   }
 };
 
-export { route as GET, route as POST };
+export { handler as GET, handler as POST };

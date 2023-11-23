@@ -1,7 +1,6 @@
-'use client';
 import { useState } from 'react';
 import { TestMail } from './libs/test.template';
-import { MailerStatus, gobmailer } from './libs/transporter';
+import { MailerStatus } from './libs/transporter';
 import styles from './page.module.scss';
 
 export default function Home() {
@@ -12,16 +11,11 @@ export default function Home() {
     html: <TestMail />,
   };
 
-  const [mailStatus, setMailStatus] = useState<undefined | MailerStatus>(undefined);
-
-  async function handler() {
-    const result = await gobmailer(mailData);
-    setMailStatus(result);
-  }
+  async function handler() {}
 
   return (
     <main className={styles.main}>
-      <button onClick={() => handler()}></button> {mailStatus?.status}
+      <button onClick={undefined}></button> test
     </main>
   );
 }

@@ -16,7 +16,7 @@ export type MailerStatus = {
 
 export type MailerElement<T = any> = ReactElement<T, string | JSXElementConstructor<T>>;
 
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST as string,
   port: 587,
   secure: false, //https://nodemailer.com/smtp/ upgrade later with STARTTLS
@@ -28,28 +28,3 @@ const transporter = nodemailer.createTransport({
     rejectUnauthorized: false,
   },
 });
-
-// cspell:disable
-export async function gobmailer<T extends MailerElement>(
-  option: MailerOption<T>
-): Promise<MailerStatus> {
-  const emailHtml = render(option.html);
-
-  const compose: MailerOption<string> = {
-    from: option.from,
-    to: option.to,
-    subject: option.subject,
-    html: emailHtml,
-  };
-  try {
-    await transporter.sendMail(compose);
-    console.log('mail sent');
-    return { status: 'OK', details: `sent mail to ${compose.to}` };
-  } catch (error) {
-    console.error('mail error', error);
-    return {
-      status: 'ERROR',
-      details: error,
-    };
-  }
-}
