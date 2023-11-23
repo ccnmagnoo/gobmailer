@@ -1,22 +1,16 @@
 render;
 import { render } from '@react-email/render';
 import { MailerElement, MailerOption, MailerStatus, transporter } from './transporter';
+import Mail from 'nodemailer/lib/mailer';
 
 // cspell:disable
-export async function gobmailer<T>(option: MailerOption<T>): Promise<MailerStatus> {
-  let emailHtml: string | undefined = undefined;
-
-  if (typeof option.html === 'string') {
-    emailHtml = option.html;
-  } else {
-    emailHtml = render(option.html as MailerElement); //alert!: im cheating here.
-  }
-
-  const compose: MailerOption<string> = {
+export async function gobmailer(option: Mail.Options): Promise<MailerStatus> {
+  const compose: Mail.Options = {
     from: option.from,
     to: option.to,
+    cc: option.cc,
     subject: option.subject,
-    html: emailHtml,
+    html: option.html,
   };
   try {
     await transporter.sendMail(compose);
