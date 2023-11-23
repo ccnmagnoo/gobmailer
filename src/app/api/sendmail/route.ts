@@ -1,13 +1,17 @@
 import { gobmailer } from '@/app/libs/gobmailer';
-import { MailerOption, MailerStatus } from '@/app/libs/transporter';
+import { MailerStatus } from '@/app/libs/transporter';
 import { NextRequest, NextResponse } from 'next/server';
+import Mail from 'nodemailer/lib/mailer';
 
 const handler = async (req: NextRequest, res: NextResponse<MailerStatus>) => {
-  const mailData: MailerOption<string> = await req.json();
+  const mailData: Mail.Options = await req.json();
   const mailResult = await gobmailer(mailData);
 
   if (mailResult.status === 'OK') {
-    return Response.json({ mailData }, { status: 200 });
+    return Response.json(
+      { mailData },
+      { status: 200, statusText: `success message to ${mailData.to}` }
+    );
   }
   if (mailResult.status === 'ERROR') {
     return Response.json(
