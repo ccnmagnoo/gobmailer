@@ -1,17 +1,26 @@
-import Institution from '../db/Institution';
-import Territory from '../db/Territory';
 import { ContactAssembler, ContactJson, contactData } from '../db/contact';
-import Scope from '../db/scope';
 
 class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[MODEL]> {
-  contacts = contactData;
-  private model: MODEL; //institution,territory,
-  private assembler: KEY[];
+  private contacts = contactData;
+  private model: MODEL; //institution,territory,scope
+  private assembler: KEY[]; // correspoding element of institution or territory or scope
 
   constructor(model: MODEL, assembler: KEY[]) {
     this.model = model;
     this.assembler = assembler;
   }
+
+  get allContacts() {
+    return this.contacts;
+  }
+
+  get mailList() {
+    const rev = this.contacts.filter((contact) => {
+      return this.assembler.includes(contact[this.model] as KEY);
+    });
+
+    return rev;
+  }
 }
 
-const list = new MailListGen('institution', ['Aduana', 'Aduana', 'I.M. Catemu']);
+export default MailListGen;
