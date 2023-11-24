@@ -62,7 +62,7 @@ type Institution =
   | 'Ministra de Las Culturas, Las Artes y El Patrimonio'
   | 'Subsecretaria de Las Culturas y de Las Artes'
   | 'Subsecretaria del Patrimonio Cultural'
-  | 'Ministra de Ciencia, Tecnología, Conociendo E Innovación:'
+  | 'Ministra de Ciencia, Tecnología, Conociendo E Innovación'
   | 'Subsecretaria de Ciencia'
   | 'Gobernación Regional de Valparaíso'
   | 'Delegación Regional Presidencial de Valparaíso'
