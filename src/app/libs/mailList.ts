@@ -12,6 +12,12 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     this.model = model;
     this.assembler = assembler;
   }
+  set newAssemblerList(assembler: KEY[]) {
+    this.assembler = assembler;
+  }
+  set addAssembler(element: KEY) {
+    this.assembler.push(element);
+  }
 }
 
-const list = new MailListGen('institution', ['Armada', 'Aduana']);
+const list = new MailListGen('institution', ['Armada', 'Aduana', 'Carabineros de Chile']);
