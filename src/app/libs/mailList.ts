@@ -5,19 +5,13 @@ import Scope from '../db/scope';
 
 class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[MODEL]> {
   contacts = contactData;
-  private model: MODEL;
+  private model: MODEL; //institution,territory,
   private assembler: KEY[];
 
   constructor(model: MODEL, assembler: KEY[]) {
     this.model = model;
     this.assembler = assembler;
   }
-  set newAssemblerList(assembler: KEY[]) {
-    this.assembler = assembler;
-  }
-  set addAssembler(element: KEY) {
-    this.assembler.push(element);
-  }
 }
 
-const list = new MailListGen('institution', ['Armada', 'Aduana', 'Carabineros de Chile']);
+const list = new MailListGen('institution', ['Aduana', 'Aduana', 'I.M. Catemu']);

@@ -21,22 +21,20 @@ type ContactStruct = {
 type Nullable<TYPE> = {
   [KEY in keyof TYPE]: TYPE[KEY] extends string | number ? TYPE[KEY] | null : TYPE[KEY];
 };
-
-/**
- * @type ContactAssemble , use ContactStruct params NON string or numbers,
- * that means just elements @param institution, @param scope, @param territory.
- */
-export type ContactAssembler = {
-  [KEY in keyof ContactStruct]: ContactStruct[KEY] extends string | number
-    ? never
-    : ContactStruct[KEY];
-};
-
 /**
  * @type ContactJason = nullable ContactStruct, source Type from db contact object type
  */
 //Contact data income with json
 export type ContactJson = Nullable<ContactStruct>;
+
+type Assembler<TYPE> = {
+  [KEY in keyof TYPE]: TYPE[KEY] extends string | number ? never : TYPE[KEY];
+};
+/**
+ * @type ContactAssemble , use ContactStruct params NON string or numbers,
+ * that means just elements @param institution, @param scope, @param territory.
+ */
+export type ContactAssembler = Assembler<ContactStruct>;
 
 /**
  * @constant contact with all assets with array of contacts
