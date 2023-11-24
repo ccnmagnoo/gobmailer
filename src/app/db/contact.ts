@@ -28,7 +28,9 @@ type Nullable<TYPE> = {
 export type ContactJson = Nullable<ContactStruct>;
 
 type Assembler<TYPE> = {
-  [KEY in keyof TYPE]: TYPE[KEY] extends string | number ? never : TYPE[KEY];
+  [KEY in keyof TYPE]: TYPE[KEY] extends Exclude<string | number, TYPE[KEY]>
+    ? TYPE[KEY]
+    : never;
 };
 /**
  * @type ContactAssemble , use ContactStruct params NON string or numbers,
