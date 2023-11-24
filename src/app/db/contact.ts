@@ -1,20 +1,26 @@
 import contact from './contact.json';
 
-const [data] = contact;
-
-type Scope = typeof data['scope'] as const;
-type Territory = (typeof data)['territory'];
-type Institution = (typeof data)['institution'];
-
-type Contact = {
+//base Contact structure
+type ContactStruct = {
   name: string;
   position: string;
-  institution: Institution;
-  scope: Scope;
-  territory: Territory;
-  email: null | number;
-  phone: null | number;
-  movil: null | number;
+  institution: string;
+  scope: string;
+  territory: string;
+  email: string;
+  phone: number;
+  movil: number;
   address: string;
   city: string;
 };
+
+//nullable values as Partial<> but for Nulls instead
+export type Nullable<TYPE> = {
+  [KEY in keyof TYPE]: TYPE[KEY] | null;
+};
+
+//Contact data income with json
+export type ContactJson = Nullable<ContactStruct>;
+
+//db with contacts
+const data: ContactJson[] = contact;
