@@ -19,7 +19,7 @@ type ContactStruct = {
 
 //nullable values as Partial<> but for Nulls instead
 export type Nullable<TYPE> = {
-  [KEY in keyof TYPE]: TYPE[KEY] | null;
+  [KEY in keyof TYPE]: TYPE[KEY] extends string | number ? TYPE[KEY] | null : TYPE[KEY];
 };
 
 //Contact data income with json
