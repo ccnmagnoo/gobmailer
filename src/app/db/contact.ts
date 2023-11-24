@@ -18,12 +18,28 @@ type ContactStruct = {
 };
 
 //nullable values as Partial<> but for Nulls instead
-export type Nullable<TYPE> = {
+type Nullable<TYPE> = {
   [KEY in keyof TYPE]: TYPE[KEY] extends string | number ? TYPE[KEY] | null : TYPE[KEY];
 };
 
+/**
+ * @type ContactAssemble , use ContactStruct params NON string or numbers,
+ * that means just elements @param institution, @param scope, @param territory.
+ */
+export type ContactAssembler = {
+  [KEY in keyof ContactStruct]: ContactStruct[KEY] extends string | number
+    ? never
+    : ContactStruct[KEY];
+};
+
+/**
+ * @type ContactJason = nullable ContactStruct, source Type from db contact object type
+ */
 //Contact data income with json
 export type ContactJson = Nullable<ContactStruct>;
 
+/**
+ * @constant contact with all assets with array of contacts
+ */
 //db with contacts
-const data = contact as ContactJson[];
+export const contactData = contact as ContactJson[];
