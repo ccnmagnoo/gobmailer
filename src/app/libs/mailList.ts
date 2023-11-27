@@ -71,17 +71,17 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
   }
 
   send(
-    options: Omit<Mail.Options, 'html' | 'text'>,
+    options: Omit<Mail.Options, 'html' | 'text' | 'to'>,
     mailModel: 'grouped' | 'individualized' = 'grouped',
     template: MailerElement
   ) {
     //mail grouped by email, emails are not nominative
     if ((mailModel = 'grouped')) {
+      const html = render(template); //important❗: email template HERE
       Object.entries(this.groupInLine()).forEach(async ([_, mails]) => {
         //send anonymous grouped email
-        options.to = mails;
-        const html = render(template); //important❗: email template HERE
-        await this.apiSend({ ...options, html: html });
+        const to = mails;
+        await this.apiSend({ ...options, html: html, to: to });
       });
     }
 
@@ -89,9 +89,11 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     if ((mailModel = 'individualized')) {
       this.filteredContacts.forEach(async (contact) => {
         //send personalized email
-        options.to = contact.email ?? undefined;
         const html = render(template); //important❗: email template HERE
-        await this.apiSend({ ...options, html: html });
+        if (contact.email) {
+          const to = contact.email;
+          await this.apiSend({ ...options, html: html, to: to });
+        }
       });
     }
   }
