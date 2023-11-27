@@ -1,4 +1,3 @@
-import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
 import { JSXElementConstructor, ReactElement } from 'react';
 

@@ -2,6 +2,7 @@ import MailListGen from './libs/MailList';
 import styles from './page.module.scss';
 
 export default function Home() {
+  console.log(new MailListGen('institution', ['Aduana', 'Armada']).groupByModel());
   return (
     <main className={styles.main}>
       <header>
