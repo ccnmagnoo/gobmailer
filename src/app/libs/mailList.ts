@@ -81,6 +81,7 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
         await this.apiSend(options);
       });
     }
+
     //mail personalized for each contact in filtered list
     if ((mailModel = 'individualized')) {
       this.filteredContacts.forEach(async (contact) => {
@@ -90,8 +91,6 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
         await this.apiSend(options);
       });
     }
-
-    //mail personalized by name
   }
 
   private async apiSend(options: MailOptions) {
