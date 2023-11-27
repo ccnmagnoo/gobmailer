@@ -58,7 +58,10 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     });
     return grouped;
   }
-
+  /**
+   * @function groupInLine sets mail list, ready por api mailer
+   * @returns {Aduana:'mail,mail,mail...'}
+   */
   groupInLine() {
     const normalized: Record<string, string> = {};
     Object.entries(this.groupByModel()).forEach(([entry, setOfMails]) => {
@@ -68,17 +71,17 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
   }
 
   send(
-    options: Mail.Options,
+    options: Omit<Mail.Options, 'html' | 'text'>,
     mailModel: 'grouped' | 'individualized' = 'grouped',
-    template: (...arg: any[]) => MailerElement
+    template: MailerElement
   ) {
     //mail grouped by email, emails are not nominative
     if ((mailModel = 'grouped')) {
       Object.entries(this.groupInLine()).forEach(async ([_, mails]) => {
         //send anonymous grouped email
         options.to = mails;
-        options.html = undefined; //important❗: email template HERE
-        await this.apiSend(options);
+        const html = render(template); //important❗: email template HERE
+        await this.apiSend({ ...options, html: html });
       });
     }
 
@@ -87,8 +90,8 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
       this.filteredContacts.forEach(async (contact) => {
         //send personalized email
         options.to = contact.email ?? undefined;
-        options.html = undefined; //important❗: email template HERE
-        await this.apiSend(options);
+        const html = render(template); //important❗: email template HERE
+        await this.apiSend({ ...options, html: html });
       });
     }
   }
