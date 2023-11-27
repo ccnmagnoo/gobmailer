@@ -14,7 +14,7 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     return this.contacts;
   }
 
-  get mailList() {
+  get filteredContacts(): ContactJson[] {
     const rev = this.contacts.filter((contact) => {
       return this.assembler.includes(contact[this.model] as KEY);
     });
@@ -22,8 +22,27 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     return rev;
   }
 
-  groupByMails() {
-    this.mailList.forEach(() => {});
+  groupByModel() {
+    let grouped: { [key: string]: (string | undefined)[] } = {};
+    //init
+    this.filteredContacts.forEach((contact) => {
+      /**
+       * grouped = {
+       *  "armada" = [mail1,mail2,...mailN ]
+       * }
+       */
+      grouped[contact[this.model] as string] = [];
+      //                    ^:institute
+      //        ^:'Armada'
+    });
+    //fulfilling
+    this.filteredContacts.forEach((contact) => {
+      if (contact.email) {
+        grouped[contact[this.model] as string].push(contact.email ?? undefined);
+      }
+    });
+
+    return grouped;
   }
 }
 
