@@ -8,6 +8,7 @@ type Scope =
   | 'circunscripción'
   | 'distrital'
   | 'territorio maritimo'
-  | 'prefectura';
+  | 'prefectura'
+  | 'test';
 
 export default Scope;

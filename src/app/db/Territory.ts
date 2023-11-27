@@ -68,6 +68,7 @@ type Territory =
   | 'Prefectura Quilpué'
   | 'Prefectura Villa Alemana'
   | 'Prefectura Limache'
-  | 'Prefectura Isla de Pascua';
+  | 'Prefectura Isla de Pascua'
+  | 'test';
 
 export default Territory;

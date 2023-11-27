@@ -203,6 +203,7 @@ type Institution =
   | 'Policía de Investigaciones'
   | 'Bomberos de Chile'
   | 'Defensa Civil'
-  | 'Cruz Roja';
+  | 'Cruz Roja'
+  | 'test';
 
 export default Institution;
