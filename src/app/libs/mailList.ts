@@ -77,7 +77,7 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
       Object.entries(this.groupInLine()).forEach(async ([_, mails]) => {
         //send anonymous grouped email
         options.to = mails;
-        options.html = undefined; //important!: email template HERE
+        options.html = undefined; //important❗: email template HERE
         await this.apiSend(options);
       });
     }
@@ -86,7 +86,7 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
       this.filteredContacts.forEach(async (contact) => {
         //send personalized email
         options.to = contact.email ?? undefined;
-        options.html = undefined; //important!: email template HERE
+        options.html = undefined; //important❗: email template HERE
         await this.apiSend(options);
       });
     }
