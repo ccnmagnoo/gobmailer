@@ -23,3 +23,9 @@ export interface Content {
   map?: (address: string) => string;
   date: Date;
 }
+
+export interface Review {
+  authorName: string;
+  authorImage: string;
+  reviewText?: string;
+}
