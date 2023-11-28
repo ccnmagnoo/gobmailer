@@ -10,6 +10,9 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
   private contacts = contactData;
   private model: MODEL; //institution,territory,scope
   private assembler: KEY[]; // corresponding element of institution or territory or scope
+  private readonly re_email: RegExp = new RegExp(
+    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+  );
 
   constructor(model: MODEL, assembler: KEY[]) {
     this.model = model;
@@ -58,11 +61,12 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     });
     return grouped;
   }
+  // cspell:disable
   /**
-   * @function groupInLine sets mail list, ready por api mailer
+   * @function mailDistribution sets mail list, ready por api mailer
    * @returns {Aduana:'mail,mail,mail...'}
    */
-  groupInLine() {
+  mailDistribution() {
     const normalized: Record<string, string> = {};
     Object.entries(this.groupByModel()).forEach(([entry, setOfMails]) => {
       normalized[entry] = Array.from(setOfMails).join(',');
@@ -70,32 +74,26 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
     return normalized;
   }
 
-  send(
+  async send(
     options: Omit<Mail.Options, 'html' | 'text' | 'to'>,
-    mailModel: 'grouped' | 'individualized' = 'grouped',
-    template: MailerElement
+    template: MailerElement,
+    to: string
   ) {
     //mail grouped by email, emails are not nominative
-    if ((mailModel = 'grouped')) {
-      const html = render(template); //important❗: email template HERE
-      Object.entries(this.groupInLine()).forEach(async ([_, mails]) => {
-        //send anonymous grouped email
-        const to = mails;
-        await this.apiSend({ ...options, html: html, to: to });
-      });
+    const distribution = to.match(this.re_email);
+
+    if (!distribution?.length) {
+      //if no valid distro mail
+      return { status: 'destination invalid' };
     }
 
-    //mail personalized for each contact in filtered list
-    if ((mailModel = 'individualized')) {
-      this.filteredContacts.forEach(async (contact) => {
-        //send personalized email
-        const html = render(template); //important❗: email template HERE
-        if (contact.email) {
-          const to = contact.email;
-          await this.apiSend({ ...options, html: html, to: to });
-        }
-      });
-    }
+    const result = await this.apiSend({
+      ...options,
+      to: distribution.join(','),
+      html: render(template),
+    });
+
+    return result;
   }
 
   private async apiSend(options: MailOptions) {
@@ -111,8 +109,10 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
       });
 
       console.log('response', send.json());
+      return { status: send.status };
     } catch (error) {
       console.error(error);
+      return { status: error };
     }
   }
 }

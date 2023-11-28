@@ -2,7 +2,8 @@ import MailListGen from './libs/MailList';
 import styles from './page.module.scss';
 
 export default function Home() {
-  const mail = new MailListGen('institution', ['test']);
+  const mail = new MailListGen('institution', ['test', 'Aduana', 'Bomberos de Chile']);
+  console.log(mail.mailDistribution());
 
   return (
     <main className={styles.main}>
