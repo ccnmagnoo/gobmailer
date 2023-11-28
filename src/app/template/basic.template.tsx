@@ -1,18 +1,20 @@
 import React from 'react';
 import { Content, Review } from './Content';
 import { Html } from '@react-email/html';
-import { Body, Container, Head, Preview, Section } from '@react-email/components';
+import { Body, Container, Head, Preview, Section, Text } from '@react-email/components';
 
-interface Props extends Content {}
+interface Props extends Partial<Content> {}
 
 export const Basic = (c: Props) => {
-  const previewText = c.title;
+  const previewText = c.title ?? 'Seremi de Energía V';
   return (
     <Html lang='es' dir='ltr'>
       <Head></Head>
       <Preview>{previewText}</Preview>
       <Body style={main}>
-        <Container style={container}></Container>
+        <Container style={container}>
+          <Text>{}</Text>
+        </Container>
         <Section style={footer}></Section>
       </Body>
     </Html>
