@@ -64,7 +64,7 @@ class MailListGen<MODEL extends keyof ContactAssembler, KEY extends ContactJson[
   // cspell:disable
   /**
    * @function mailDistribution sets mail list, ready por api mailer
-   * @returns {Aduana:'mail,mail,mail...'}
+   * @returns Record<string, string>  -> {Aduana:'mail,mail,mail...'}
    */
   mailDistribution() {
     const normalized: Record<string, string> = {};
