@@ -2,8 +2,10 @@ import React from 'react';
 import { Content, Review } from './Content';
 import { Html } from '@react-email/html';
 import { Body, Container, Head, Preview, Section, Text } from '@react-email/components';
+import Mail from 'nodemailer/lib/mailer';
+import { ContactJson } from '../db/contact';
 
-interface Props extends Partial<Content> {}
+interface Props extends Partial<Content>, Partial<Mail.Options>, ContactJson {}
 
 export const Basic = (c: Props) => {
   const previewText = c.title ?? 'Seremi de Energía V';

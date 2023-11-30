@@ -18,10 +18,12 @@ export interface Content {
   title: string;
   salute?: string;
   message: string;
-  location?: string;
-  address: string;
-  map?: (address: string) => string;
-  date: Date;
+  event: {
+    location?: string;
+    address: string;
+    dateTime: Date;
+    map?: (address: string) => string;
+  };
 }
 
 export interface Review {
