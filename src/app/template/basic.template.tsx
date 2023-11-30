@@ -5,17 +5,21 @@ import { Body, Container, Head, Preview, Section, Text } from '@react-email/comp
 import Mail from 'nodemailer/lib/mailer';
 import { ContactJson } from '../db/contact';
 
-interface Props extends Partial<Content>, Partial<Mail.Options>, ContactJson {}
+interface Props {
+  content: Partial<Content>;
+  options: Partial<Mail.Options>;
+  contact?: ContactJson;
+}
 
 export const Basic = (c: Props) => {
-  const previewText = c.title ?? 'Seremi de Energía V';
+  const previewText = c.content.title ?? 'Seremi de Energía V';
   return (
     <Html lang='es' dir='ltr'>
       <Head></Head>
       <Preview>{previewText}</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Text>{}</Text>
+          <Text>{'hello react mail'}</Text>
         </Container>
         <Section style={footer}></Section>
       </Body>
