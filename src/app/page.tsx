@@ -4,7 +4,8 @@ import { Basic } from './template/basic.template';
 
 export default function Home() {
   const mail = new MailListGen('institution', ['test', 'Aduana', 'Bomberos de Chile']);
-  console.log(mail.mailDistribution());
+  const grouped = mail.mailDistribution();
+  console.log('result📨', grouped);
 
   return (
     <main className={styles.main}>
