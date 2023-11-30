@@ -23,18 +23,22 @@
     aspect-ratio: 16/9;
     background-color: black;
 
-    &::after {
-      $border: 5px;
-      z-index: -1;
-      content: '';
-      position: absolute;
-      top: -$border;
-      left: -$border;
-      border-radius: 10px;
-
-      width: $button_size + 5px;
-      aspect-ratio: 16/9;
-      background: radial-gradient(circle at top 20% left 50%, pink, blue);
+    &:hover {
+      box-shadow: 0px 0px 4px 2px white;
     }
+
+    // &::after {
+    //   $border: 5px;
+    //   z-index: -1;
+    //   content: '';
+    //   position: absolute;
+    //   top: -$border;
+    //   left: -$border;
+    //   border-radius: 10px;
+
+    //   width: $button_size + 5px;
+    //   aspect-ratio: 16/9;
+    //   background: radial-gradient(circle at top 20% left 50%, pink, blue);
+    // }
   }
 }

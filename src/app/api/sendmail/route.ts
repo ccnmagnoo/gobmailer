@@ -13,6 +13,7 @@ const handler = async (req: NextRequest, res: NextResponse<MailerStatus>) => {
       { status: 200, statusText: `success message to ${mailData.to}` }
     );
   }
+
   if (mailResult.status === 'ERROR') {
     return Response.json(
       { mailResult },
